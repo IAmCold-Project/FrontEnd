@@ -16,7 +16,6 @@ import {
 } from "@expo-google-fonts/inter";
 import * as React from "react";
 import LoginPage from "./src/component/login/login";
-import Dage from "./src/component/login/sex";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
