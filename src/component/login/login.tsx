@@ -11,9 +11,12 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import SvgUri, { Path } from "react-native-svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
   useFonts,
@@ -172,11 +175,14 @@ function LoginInput() {
             email: emailInput,
             password: password,
           })
-          .then((data: AxiosResponse<boolean>) => {
-            if (data.data) {
-              setSliderState(1);
+          .then(async (data) => {
+            if (data.data["access_token"]) {
+              await AsyncStorage.setItem("token", data.data["access_token"]);
+              const kkk = await AsyncStorage.getItem("token");
+              navigation.navigate("Main");
+              Alert.alert(kkk);
             } else {
-              setSliderState(2);
+              Alert.alert(data.data);
             }
           });
       }}
@@ -192,11 +198,13 @@ function LoginInput() {
             password1: password,
             password2: password1,
           })
-          .then((data) => {
+          .then(async (data) => {
             if (data.data["access_token"]) {
-              setSliderState(1);
+              await AsyncStorage.setItem("token", data.data["access_token"]);
+              const kkk = await AsyncStorage.getItem("token");
+              Alert.alert(kkk);
             } else {
-              setSliderState(2);
+              Alert.alert("Wrong password");
             }
           });
       }}
